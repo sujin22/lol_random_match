@@ -66,7 +66,7 @@ function ChampionList() {
   };
 
   return (
-    <div className="root">
+    <div className="App">
       <h1>칼바람유치원 팀짜기</h1>
       <button onClick={() => selectRandomChampions(championData)}>랜덤 챔피언 뽑기</button>
       <div className="champion_list_area"> 
