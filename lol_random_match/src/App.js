@@ -1,54 +1,10 @@
-// import React, { useState } from 'react';
-// import _ from 'lodash';
-// import './App.css';
-
-// const characters = [
-//   { id: 1, name: 'Character 1', image: 'image1.jpg' },
-//   { id: 2, name: 'Character 2', image: 'image2.jpg' },
-//   // 나머지 98개의 캐릭터 정보
-// ];
-
-// function App() {
-//   const [team1, setTeam1] = useState([]);
-//   const [team2, setTeam2] = useState([]);
-
-//   const randomizeTeams = () => {
-//     const shuffledCharacters = _.shuffle(characters);
-//     setTeam1(shuffledCharacters.slice(0, 15));
-//     setTeam2(shuffledCharacters.slice(15, 30));
-//   };
-
-//   return (
-//     <div className="App">
-//       <div className="team">
-//         <h2>Team 1</h2>
-//         {team1.map((character) => (
-//           <div key={character.id} className="character">
-//             <img src={character.image} alt={character.name} />
-//             <span>{character.name}</span>
-//           </div>
-//         ))}
-//       </div>
-//       <button onClick={randomizeTeams}>Randomize Teams</button>
-//       <div className="team">
-//         <h2>Team 2</h2>
-//         {team2.map((character) => (
-//           <div key={character.id} className="character">
-//             <img src={character.image} alt={character.name} />
-//             <span>{character.name}</span>
-//           </div>
-//         ))}
-//       </div>
-//     </div>
-//   );
-// }
-
-// export default App;
-
-import React, { useEffect, useState } from 'react';
+import React, { useState, useEffect } from 'react';
+import './App.css'; // CSS 파일을 import
 
 function ChampionList() {
   const [championData, setChampionData] = useState([]);
+  const [randomChampions1, setRandomChampions1] = useState([]);
+  const [randomChampions2, setRandomChampions2] = useState([]);
 
   useEffect(() => {
     const fetchData = async () => {
@@ -63,6 +19,7 @@ function ChampionList() {
           image: value.image.full,
         }));
         setChampionData(championList);
+        selectRandomChampions(championList); // championData가 설정된 후 랜덤 챔피언을 선택
       } catch (error) {
         console.error('Error fetching champion data:', error);
       }
@@ -71,17 +28,50 @@ function ChampionList() {
     fetchData();
   }, []);
 
+  const selectRandomChampions = (championList) => {
+    if (championList.length === 0) return; // championList가 아직 비어있다면 랜덤 챔피언을 선택하지 않음
+
+    const shuffledChampions = championList.sort(() => 0.5 - Math.random());
+    const selectedChampions1 = shuffledChampions.slice(0, 15);
+    const selectedChampions2 = shuffledChampions.slice(16, 31);
+
+    setRandomChampions1(selectedChampions1);
+    setRandomChampions2(selectedChampions2);
+  };
+
+  const copyChampionList = (listNumber) => {
+    const selectedList = listNumber === 1 ? randomChampions1 : randomChampions2;
+    const listText = selectedList.map(champion => champion.name).join(', ');
+
+    navigator.clipboard.writeText(listText)
+      .then(() => console.log(`챔피언 목록이 복사되었습니다: ${listText}`))
+      .catch(() => console.log('챔피언 목록 복사에 실패했습니다.'));
+  };
+
   return (
     <div>
-      <h1>Champion List</h1>
-      <ul>
-        {championData.map((champion, index) => (
-          <li key={index}>
-            <img src={`https://ddragon.leagueoflegends.com/cdn/14.3.1/img/champion/${champion.image}`} alt={champion.name} />
-            {champion.name}
-          </li>
-        ))}
-      </ul>
+      <h1>칼바람유치원 팀짜기</h1>
+      <button onClick={() => selectRandomChampions(championData)}>랜덤 챔피언 뽑기</button>
+      <div className="champion_list_area"> 
+        <ul className="champion_list"> 
+          {randomChampions1.map((champion, index) => (
+            <li key={index} className="character">
+              <img src={`https://ddragon.leagueoflegends.com/cdn/14.3.1/img/champion/${champion.image}`} alt={champion.name} />
+              {champion.name}
+            </li>
+          ))}
+          <button onClick={() => copyChampionList(1)}>복사</button>
+        </ul>
+        <ul className="champion_list"> 
+          {randomChampions2.map((champion, index) => (
+            <li key={index} className="character">
+              <img src={`https://ddragon.leagueoflegends.com/cdn/14.3.1/img/champion/${champion.image}`} alt={champion.name} />
+              {champion.name}
+            </li>
+          ))}
+          <button onClick={() => copyChampionList(2)}>복사</button>
+        </ul>
+      </div>
     </div>
   );
 }
