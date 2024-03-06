@@ -1,15 +1,15 @@
 {
   "files": {
-    "main.css": "/lol_random_match/static/css/main.79cefa27.css",
-    "main.js": "/lol_random_match/static/js/main.89c8324d.js",
+    "main.css": "/lol_random_match/static/css/main.34154879.css",
+    "main.js": "/lol_random_match/static/js/main.41c1c6a7.js",
     "static/js/592.204f1a47.chunk.js": "/lol_random_match/static/js/592.204f1a47.chunk.js",
     "index.html": "/lol_random_match/index.html",
-    "main.79cefa27.css.map": "/lol_random_match/static/css/main.79cefa27.css.map",
-    "main.89c8324d.js.map": "/lol_random_match/static/js/main.89c8324d.js.map",
+    "main.34154879.css.map": "/lol_random_match/static/css/main.34154879.css.map",
+    "main.41c1c6a7.js.map": "/lol_random_match/static/js/main.41c1c6a7.js.map",
     "592.204f1a47.chunk.js.map": "/lol_random_match/static/js/592.204f1a47.chunk.js.map"
   },
   "entrypoints": [
-    "static/css/main.79cefa27.css",
-    "static/js/main.89c8324d.js"
+    "static/css/main.34154879.css",
+    "static/js/main.41c1c6a7.js"
   ]
 }
