@@ -4,12 +4,46 @@
   align-items: center;
   padding: 20px;
 }
+.btn_random{
+  background-color:#2f3542;
+  border-color: orange;
+  color: orange;
+  font-size: large;
+}
 
-.character {
+.champion_list_area{
+  width: 100%;
+  display: flex;
+  justify-content: center;
+}
+
+.character { 
+  min-width: 150px;
   display: flex;
   align-items: center;
   margin-bottom: 10px;
-  padding: 10px;
+  padding-right: 10px;
+  padding-left: 10px;
+}
+
+/* 모바일 환경을 위한 스타일 (화면 너비가 600px 이하일 경우) */
+@media (max-width: 600px) {
+  .character, .btn_copy1, .btn_copy2 {
+    min-width: 100px;
+  }
+  .champion_list1{
+    font-size: small;
+  }
+  .champion_list2{
+    font-size: small;
+  }
+}
+
+/* PC 환경을 위한 스타일 (화면 너비가 600px 초과일 경우) */
+@media (min-width: 601px) {
+  .character, .btn_copy1, .btn_copy2 {
+    min-width: 200px;
+  }
 }
 
 .character img {
@@ -34,8 +68,29 @@ button {
   margin-left: px;
 }
 .champion_list1{
-  color: #c65969
+  color: #c65969;
+  margin-right: 5px;
 }
 .champion_list2{
-  color: #25a28d
+  color: #25a28d;
+  margin-left: 5px;
+}
+.btn_copy1{
+  color: white;
+  background-color: #c65969;
+}
+.btn_copy2{
+  color: white;
+  background-color: #25a28d;
+}
+
+ul{
+  margin: 0;
+  padding: 0;
+}
+
+.list_container{
+  display: flex;
+  flex-direction: column;
+  align-items: center;
 }

@@ -1,60 +1,37 @@
-import React, { useState, useEffect } from 'react';
-import './App.css'; // CSS 파일을 import
-import championJsonData from './champion_v14.3.1_20240215171009.json'; // JSON 파일을 import
-
+import React, { useState, useEffect, useCallback } from 'react'; // useCallback을 import합니다.
+import './App.css';
+import championJsonData from './champion_v14.3.1_20240215171009.json';
 
 function ChampionList() {
   const [championData, setChampionData] = useState([]);
   const [randomChampions1, setRandomChampions1] = useState([]);
   const [randomChampions2, setRandomChampions2] = useState([]);
+  const [randomCnt, setRandomCnt] = useState(0);
+
+  const selectRandomChampions = useCallback(() => { // championList 파라미터를 제거합니다.
+    if (championData.length === 0) return;
+
+    const shuffledChampions = [...championData].sort(() => 0.5 - Math.random()); // championData를 직접 사용합니다.
+    const selectedChampions1 = shuffledChampions.slice(0, 15);
+    const selectedChampions2 = shuffledChampions.slice(15, 30); // slice(15, 30)로 수정해야 합니다. 16이 아닌 15가 올바릅니다.
+
+    setRandomChampions1(selectedChampions1);
+    setRandomChampions2(selectedChampions2);
+    setRandomCnt(prevCnt => prevCnt + 1); // 이전 상태를 기반으로 상태를 업데이트합니다.
+  }, [championData]); // 의존성 배열에 championData를 추가합니다.
 
   useEffect(() => {
-    // JSON 데이터에서 "name"과 "image"의 "full" 값을 추출하여 리스트로 저장
     const mappingData = () => {
       const champions = Object.values(championJsonData.data);
       const championList = champions.map(champion => ({
         name: champion.name,
         image: champion.image.full
       }));
-      console.log(championList);
       setChampionData(championList);
-      selectRandomChampions(championList); // championData가 설정된 후 랜덤 챔피언을 선택
-    }
+    };
     mappingData();
-  }, []);
+  }, []); // 의존성 배열을 비워 컴포넌트 마운트 시에만 실행되도록 합니다.
 
-  // useEffect(() => {
-  //   const fetchData = async () => {
-  //     try {
-  //       const response = await fetch(
-  //         'https://ddragon.leagueoflegends.com/cdn/14.3.1/data/ko_KR/champion.json'
-  //       );
-  //       const data = await response.json();
-  //       // JSON 데이터에서 "name"과 "image"의 "full" 값을 추출하여 리스트로 저장
-  //       const championList = Object.entries(data.data).map(([key, value]) => ({
-  //         name: value.name,
-  //         image: value.image.full,
-  //       }));
-  //       setChampionData(championList);
-  //       selectRandomChampions(championList); // championData가 설정된 후 랜덤 챔피언을 선택
-  //     } catch (error) {
-  //       console.error('Error fetching champion data:', error);
-  //     }
-  //   };
-
-  //   fetchData();
-  // }, []);
-
-  const selectRandomChampions = (championList) => {
-    if (championList.length === 0) return; // championList가 아직 비어있다면 랜덤 챔피언을 선택하지 않음
-
-    const shuffledChampions = championList.sort(() => 0.5 - Math.random());
-    const selectedChampions1 = shuffledChampions.slice(0, 15);
-    const selectedChampions2 = shuffledChampions.slice(16, 31);
-
-    setRandomChampions1(selectedChampions1);
-    setRandomChampions2(selectedChampions2);
-  };
 
   const copyChampionList = (listNumber) => {
     const selectedList = listNumber === 1 ? randomChampions1 : randomChampions2;
@@ -68,26 +45,34 @@ function ChampionList() {
   return (
     <div className="App">
       <h1>칼바람유치원 팀짜기</h1>
-      <button onClick={() => selectRandomChampions(championData)}>랜덤 챔피언 뽑기</button>
-      <div className="champion_list_area"> 
-        <ul className="champion_list1"> 
-          {randomChampions1.map((champion, index) => (
-            <li key={index} className="character">
-              <img src={`https://ddragon.leagueoflegends.com/cdn/14.3.1/img/champion/${champion.image}`} alt={champion.name} />
-              {champion.name}
-            </li>
-          ))}
-          <button onClick={() => copyChampionList(1)}>복사</button>
-        </ul>
-        <ul className="champion_list2"> 
-          {randomChampions2.map((champion, index) => (
-            <li key={index} className="character">
-              <img src={`https://ddragon.leagueoflegends.com/cdn/14.3.1/img/champion/${champion.image}`} alt={champion.name} />
-              {champion.name}
-            </li>
-          ))}
-          <button onClick={() => copyChampionList(2)}>복사</button>
-        </ul>
+      <button className="btn_random" onClick={() => selectRandomChampions(championData)}>랜덤 챔피언 뽑기</button>
+      <p className="random_cnt">뽑기 횟수: {randomCnt}</p>
+      <div className="champion_list_area">
+        <div className='list_container'>
+
+
+          <ul className="champion_list1">
+            {randomChampions1.map((champion, index) => (
+              <li key={index} className="character">
+                <img src={`https://ddragon.leagueoflegends.com/cdn/14.3.1/img/champion/${champion.image}`} alt={champion.name} />
+                {champion.name}
+              </li>
+            ))}
+          </ul>
+          {randomChampions2.length > 0 && <button className="btn_copy1" onClick={() => copyChampionList(1)}>복사</button>}
+        </div>
+        <div className='list_container'>
+          <ul className="champion_list2">
+            {randomChampions2.map((champion, index) => (
+              <li key={index} className="character">
+                <img src={`https://ddragon.leagueoflegends.com/cdn/14.3.1/img/champion/${champion.image}`} alt={champion.name} />
+                {champion.name}
+              </li>
+            ))}
+          </ul>
+          {randomChampions2.length > 0 && <button className="btn_copy2" onClick={() => copyChampionList(2)}>복사</button>}
+
+        </div>
       </div>
     </div>
   );
