@@ -67,13 +67,17 @@ button {
 .champion_list_area ul{
   margin-left: px;
 }
-.champion_list1{
+#champion_list1{
   color: #c65969;
   margin-right: 5px;
+  border: 2px solid transparent; 
+  animation: borderAnimation1 2s infinite linear; 
 }
-.champion_list2{
+#champion_list2{
   color: #25a28d;
   margin-left: 5px;
+  border: 2px solid transparent; 
+  animation: borderAnimation2 2s infinite linear; 
 }
 .btn_copy1{
   color: white;
@@ -94,3 +98,27 @@ ul{
   flex-direction: column;
   align-items: center;
 }
+
+@keyframes borderAnimation1 {
+  0% {
+    border-color: transparent;
+  }
+  50% {
+    border-color: #c65969; /* 이 색상은 챔피언 이름 색상과 동일하게 설정하세요. */
+  }
+  100% {
+    border-color: transparent;
+  }
+}
+@keyframes borderAnimation2{
+  0% {
+    border-color: transparent;
+  }
+  50% {
+    border-color: #25a28d; /* 이 색상은 챔피언 이름 색상과 동일하게 설정하세요. */
+  }
+  100% {
+    border-color: transparent;
+  }
+}
+

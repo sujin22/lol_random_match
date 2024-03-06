@@ -51,7 +51,7 @@ function ChampionList() {
         <div className='list_container'>
 
 
-          <ul className="champion_list1">
+          <ul id="champion_list1">
             {randomChampions1.map((champion, index) => (
               <li key={index} className="character">
                 <img src={`https://ddragon.leagueoflegends.com/cdn/14.3.1/img/champion/${champion.image}`} alt={champion.name} />
@@ -62,7 +62,7 @@ function ChampionList() {
           {randomChampions2.length > 0 && <button className="btn_copy1" onClick={() => copyChampionList(1)}>복사</button>}
         </div>
         <div className='list_container'>
-          <ul className="champion_list2">
+          <ul id="champion_list2">
             {randomChampions2.map((champion, index) => (
               <li key={index} className="character">
                 <img src={`https://ddragon.leagueoflegends.com/cdn/14.3.1/img/champion/${champion.image}`} alt={champion.name} />
