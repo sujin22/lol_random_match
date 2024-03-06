@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useCallback } from 'react'; // useCallback을 import합니다.
+import React, { useState, useEffect, useCallback } from 'react';
 import './App.css';
 import championJsonData from './champion_v14.3.1_20240215171009.json';
 
@@ -8,12 +8,12 @@ function ChampionList() {
   const [randomChampions2, setRandomChampions2] = useState([]);
   const [randomCnt, setRandomCnt] = useState(0);
 
-  const selectRandomChampions = useCallback(() => { // championList 파라미터를 제거합니다.
+  const selectRandomChampions = useCallback(() => {
     if (championData.length === 0) return;
 
-    const shuffledChampions = [...championData].sort(() => 0.5 - Math.random()); // championData를 직접 사용합니다.
+    const shuffledChampions = [...championData].sort(() => 0.5 - Math.random()); 
     const selectedChampions1 = shuffledChampions.slice(0, 15);
-    const selectedChampions2 = shuffledChampions.slice(15, 30); // slice(15, 30)로 수정해야 합니다. 16이 아닌 15가 올바릅니다.
+    const selectedChampions2 = shuffledChampions.slice(15, 30);
 
     setRandomChampions1(selectedChampions1);
     setRandomChampions2(selectedChampions2);
@@ -30,7 +30,7 @@ function ChampionList() {
       setChampionData(championList);
     };
     mappingData();
-  }, []); // 의존성 배열을 비워 컴포넌트 마운트 시에만 실행되도록 합니다.
+  }, []);
 
 
   const copyChampionList = (listNumber) => {
@@ -45,7 +45,7 @@ function ChampionList() {
   return (
     <div className="App">
       <h1>칼바람유치원 팀짜기</h1>
-      <button className="btn_random" onClick={() => selectRandomChampions(championData)}>랜덤 챔피언 뽑기</button>
+      <button className="btn_random" onClick={() => selectRandomChampions(championData)}>랜덤 실행</button>
       <p className="random_cnt">뽑기 횟수: {randomCnt}</p>
       <div className="champion_list_area">
         <div className='list_container'>
